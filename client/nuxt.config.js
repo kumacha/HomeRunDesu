@@ -1,12 +1,12 @@
-import colors from 'vuetify/es5/util/colors'
-require('dotenv').config()
-const { API_KEY } = process.env
-const { AUTH_DOMAIN } = process.env
-const { PROJECT_ID } = process.env
-const { STRAGE_BUCKET } = process.env
-const { MESSAGEING_SENDER_ID } = process.env
-const { APP_ID } = process.env
-const { MEASUREMENT_ID } = process.env
+import colors from 'vuetify/es5/util/colors';
+require('dotenv').config();
+const { API_KEY } = process.env;
+const { AUTH_DOMAIN } = process.env;
+const { PROJECT_ID } = process.env;
+const { STRAGE_BUCKET } = process.env;
+const { MESSAGEING_SENDER_ID } = process.env;
+const { APP_ID } = process.env;
+const { MEASUREMENT_ID } = process.env;
 export default {
   // Target: https://go.nuxtjs.dev/config-target
   target: 'static',
@@ -24,10 +24,10 @@ export default {
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
-  css: [],
+  css: ['swiper/css/swiper.css'],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [],
+  plugins: [{ src: '~/plugins/swiper.js' }],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -88,4 +88,4 @@ export default {
     APP_ID,
     MEASUREMENT_ID,
   },
-}
+};

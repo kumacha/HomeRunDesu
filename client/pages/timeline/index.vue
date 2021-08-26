@@ -1,9 +1,22 @@
 <template>
-  <div>タイムラインページ使うかわからん</div>
+  <div>
+    <v-container
+      ><v-row><p>新着投稿</p></v-row></v-container
+    >
+    <TimelineSlideShow />
+  </div>
 </template>
 
 <script>
-export default {}
+import TimelineSlideShow from '~/components/Organisms/TimelineSlideShow.vue';
+export default {
+  components: {
+    TimelineSlideShow,
+  },
+  data() {
+    return {};
+  },
+};
 </script>
 
 <style></style>
