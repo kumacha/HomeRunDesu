@@ -2,7 +2,7 @@
 フロントエンド Nuxt.js(Vue.js)<br>
 バックエンド Django (Python3.7.3)<br>
 データベース PostgreSQL or Cloud Firestore<br>
-ホスティング Firebase Hosting
+ホスティング Firebase Hosting<br>
 外部API 感情分析系
 
 #### アプリの内容
