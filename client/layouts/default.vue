@@ -25,12 +25,12 @@ export default {
       rightDrawer: false,
       title: 'ほめルンです☆',
       links: [
-        { name: 'サインイン', to: 'signin' },
-        { name: 'タイムライン', to: 'timeline' },
-        { name: 'ランキング', to: 'ranking' },
-        { name: '投稿', to: 'post' },
-        { name: '通知', to: 'notify' },
-        { name: 'プロフィール', to: 'user' },
+        { name: 'サインイン', to: '/signin' },
+        { name: 'タイムライン', to: '/timeline' },
+        { name: 'ランキング', to: '/ranking' },
+        { name: '投稿', to: '/post' },
+        { name: '通知', to: '/notify' },
+        { name: 'プロフィール', to: '/user' },
       ],
     };
   },
