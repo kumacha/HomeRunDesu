@@ -120,7 +120,86 @@
 </template>
 
 <script>
-export default {};
+export default {
+  data() {
+    return {
+      registerErrorMsg: '',
+      tab: null,
+      register_valid: true,
+      register_email: '',
+      register_name: '',
+      register_password: '',
+      register_password_again: '',
+      emailRules: [
+        (v) => {
+          if (v) {
+            return (
+              /.+@.+\..+/.test(v) || '有効なメールアドレスを入力してください'
+            );
+          } else {
+            return true;
+          }
+        },
+      ],
+      register_passwordRules: [(v) => !!v || 'パスワードを入力してください'],
+      register_passwordAgainRules: [
+        (v) => {
+          if (v) {
+            return (
+              this.$refs.register_password.value === v ||
+              'パスワードと一致しません'
+            );
+          } else {
+            return true;
+          }
+        },
+      ],
+      nameRules: [(v) => !!v || 'ユーザー名を入力してください'],
+      show_registerPassword: false,
+    };
+  },
+  computed: {
+    user() {
+      return this.$store.getters.user;
+    },
+  },
+  methods: {
+    // ユーザー登録
+    email_register() {
+      if (this.$refs.register_form.validate()) {
+        this.$store
+          .dispatch('email_register', {
+            email: this.register_email,
+            password: this.register_password,
+            name: this.register_name,
+            thumbnail: this.register_thumbnail,
+          })
+          .then(() => {
+            this.register_email = '';
+            this.register_password = '';
+            this.$router.push({
+              name: 'index',
+              params: {
+                dashboard_msg: true,
+                dashboard_msg_text: 'アカウントの登録が完了しました。',
+              },
+            });
+          })
+          .catch((err) => {
+            console.log(err);
+            if (err.code === 'auth/email-already-in-use') {
+              this.registerErrorMsg =
+                'このメールアドレスは既に登録されています。';
+            } else if (err.code === 'auth/invalid-email') {
+              this.registerErrorMsg = '無効なメールアドレスです。';
+            } else {
+              this.registerErrorMsg = 'エラーにより登録できませんでした。';
+            }
+          });
+      }
+    },
+  },
+};
 </script>
 
 <style></style>
