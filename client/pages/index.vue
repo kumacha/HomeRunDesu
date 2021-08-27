@@ -1,16 +1,9 @@
 <template>
-  <div>
-    <p>a</p>
-    <section>
-      <swiper :options="swiperOption">
-        <swiper-slide>スライド１</swiper-slide>
-        <swiper-slide>スライド２</swiper-slide>
-        <swiper-slide>スライド３</swiper-slide>
-        <div class="swiper-pagination" slot="pagination"></div>
-        <div class="swiper-button-prev" slot="button-prev"></div>
-        <div class="swiper-button-next" slot="button-next"></div>
-      </swiper>
-    </section>
+  <div class="page">
+    <form class="form" @submit.prevent="submitImg">
+      <input type="file" accept="img/*" @change="changeImg" />
+      <button type="submit" class="button">click</button>
+    </form>
   </div>
 </template>
 
@@ -18,25 +11,19 @@
 export default {
   data() {
     return {
-      swiperOption: {
-        autoplay: {
-          delay: 2500,
-          disableOnInteraction: false,
-        },
-        pagination: {
-          el: '.swiper-pagination',
-          clickable: true,
-        },
-        slidesPerView: 2,
-        centeredSlides: true,
-        spaceBetween: 5,
-        loop: true,
-        navigation: {
-          nextEl: '.swiper-button-next',
-          prevEl: '.swiper-button-prev',
-        },
-      },
-    }
+      thumbnail: '',
+    };
   },
-}
+  methods: {
+    changeImg(e) {
+      this.thumbnail = e;
+      console.log(this.thumbnail);
+    },
+    submitImg() {
+      // ここでsubmitする
+    },
+  },
+};
 </script>
+
+<style lang="scss" scoped></style>
