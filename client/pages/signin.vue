@@ -84,17 +84,21 @@
                     <v-alert v-if="registerErrorMsg" dense text type="error">
                       {{ registerErrorMsg }}
                     </v-alert>
-                    <div id="register-btn">
-                      <v-btn
-                        block
-                        :disabled="!register_valid"
-                        color="#2BB7A4"
-                        class="mr-4 white--text"
-                        @click="email_register"
-                      >
-                        登録
-                      </v-btn>
-                    </div>
+                    <v-row justify="center">
+                      <v-col md="8">
+                        <div id="register-btn">
+                          <v-btn
+                            block
+                            :disabled="!register_valid"
+                            color="#2BB7A4"
+                            class="mr-4 white--text"
+                            @click="email_register"
+                          >
+                            登録
+                          </v-btn>
+                        </div>
+                      </v-col>
+                    </v-row>
                   </v-form>
                 </v-card-text>
               </v-card>

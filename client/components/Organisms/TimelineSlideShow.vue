@@ -37,4 +37,11 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.swiper-button-prev {
+  background-color: #c0bfbf;
+}
+.swiper-button-next {
+  background-color: #c0bfbf;
+}
+</style>

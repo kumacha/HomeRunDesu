@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-btn block color="primary">{{ buttonName }}</v-btn>
+    <v-btn block :color="btnColor">{{ buttonName }}</v-btn>
   </div>
 </template>
 
@@ -8,6 +8,10 @@
 export default {
   props: {
     buttonName: {
+      type: String,
+      required: true,
+    },
+    btnColor: {
       type: String,
       required: true,
     },
