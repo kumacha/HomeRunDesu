@@ -1,16 +1,33 @@
 <template>
-  <div>
-    サインアウトページ
-    <div>
-      <nuxt-link to="signin">サインイン</nuxt-link>
-      <nuxt-link to="signout">サインアウト</nuxt-link>
-      <nuxt-link to="signup">ユーザー登録はコチラ</nuxt-link>
-    </div>
-  </div>
+  <v-container>
+    <v-row wrap justify="center" align="center">
+      <v-col>
+        <p class="text-center">ログアウトはコチラから。</p>
+        <div class="pa-5">
+          <v-btn block outlined color="#2BB7A4" @click="signOut">
+            ログアウト
+          </v-btn>
+        </div>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
-
 <script>
-export default {};
+import firebase from '~/plugins/firebase';
+export default {
+  methods: {
+    signOut() {
+      firebase
+        .auth()
+        .signOut()
+        .then(() => {
+          console.log('ログアウトしました。');
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+  },
+};
 </script>
-
-<style></style>
+<style scoped></style>

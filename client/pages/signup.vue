@@ -99,7 +99,7 @@
                                 :disabled="!register_valid"
                                 color="#2BB7A4"
                                 class="mr-4 white--text"
-                                @click="email_register"
+                                @click="email_register()"
                               >
                                 登録
                               </v-btn>
@@ -120,6 +120,7 @@
 </template>
 
 <script>
+import firebase from '~/plugins/firebase';
 export default {
   data() {
     return {
@@ -158,45 +159,38 @@ export default {
       show_registerPassword: false,
     };
   },
-  computed: {
-    user() {
-      return this.$store.getters.user;
-    },
-  },
+  computed: {},
   methods: {
     // ユーザー登録
     email_register() {
-      if (this.$refs.register_form.validate()) {
-        this.$store
-          .dispatch('email_register', {
-            email: this.register_email,
-            password: this.register_password,
+      firebase
+        .auth()
+        .createUserWithEmailAndPassword(
+          this.register_email,
+          this.register_password
+        )
+        .then((user) => {
+          user = firebase.auth().currentUser;
+          console.log(user);
+          const db = firebase.firestore();
+          const timestamp = firebase.firestore.Timestamp.now();
+          const userData = {
+            uid: user.uid,
             name: this.register_name,
-            thumbnail: this.register_thumbnail,
-          })
-          .then(() => {
-            this.register_email = '';
-            this.register_password = '';
-            this.$router.push({
-              name: 'index',
-              params: {
-                dashboard_msg: true,
-                dashboard_msg_text: 'アカウントの登録が完了しました。',
-              },
+            email: this.register_email,
+            createdAt: timestamp,
+            updatedAt: timestamp,
+          };
+          db.collection('users')
+            .doc(user.uid)
+            .set(userData)
+            .then(() => {
+              console.log('DBに個人データ入れました。');
+            })
+            .catch(function (error) {
+              console.log(error);
             });
-          })
-          .catch((err) => {
-            console.log(err);
-            if (err.code === 'auth/email-already-in-use') {
-              this.registerErrorMsg =
-                'このメールアドレスは既に登録されています。';
-            } else if (err.code === 'auth/invalid-email') {
-              this.registerErrorMsg = '無効なメールアドレスです。';
-            } else {
-              this.registerErrorMsg = 'エラーにより登録できませんでした。';
-            }
-          });
-      }
+        });
     },
   },
 };

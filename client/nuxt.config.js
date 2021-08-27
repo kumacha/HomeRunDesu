@@ -1,19 +1,21 @@
 import colors from 'vuetify/es5/util/colors';
+
 require('dotenv').config();
-const { API_KEY } = process.env;
-const { AUTH_DOMAIN } = process.env;
-const { PROJECT_ID } = process.env;
-const { STRAGE_BUCKET } = process.env;
-const { MESSAGEING_SENDER_ID } = process.env;
-const { APP_ID } = process.env;
-const { MEASUREMENT_ID } = process.env;
+const { FIREBASE_API_KEY } = process.env;
+const { FIREBASE_AUTH_DOMAIN } = process.env;
+const { FIREBASE_PROJECT_ID } = process.env;
+const { FIREBASE_STRAGE_BUCKET } = process.env;
+const { FIREBASE_MESSAGEING_SENDER_ID } = process.env;
+const { FIREBASE_APP_ID } = process.env;
+const { FIREBASE_MEASUREMENT_ID } = process.env;
 export default {
   // Target: https://go.nuxtjs.dev/config-target
   target: 'static',
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'HomeRunDesu',
+    titleTemplate: '%s - client',
+    title: 'client',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -27,7 +29,7 @@ export default {
   css: ['swiper/css/swiper.css'],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [{ src: '~/plugins/swiper.js' }],
+  plugins: [{ src: '~/plugins/swiper.js', ssr: false }],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -78,14 +80,15 @@ export default {
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
-  build: {},
-  env: {
-    API_KEY,
-    AUTH_DOMAIN,
-    PROJECT_ID,
-    STRAGE_BUCKET,
-    MESSAGEING_SENDER_ID,
-    APP_ID,
-    MEASUREMENT_ID,
+  build: {
+    env: {
+      FIREBASE_API_KEY,
+      FIREBASE_AUTH_DOMAIN,
+      FIREBASE_PROJECT_ID,
+      FIREBASE_STRAGE_BUCKET,
+      FIREBASE_MESSAGEING_SENDER_ID,
+      FIREBASE_APP_ID,
+      FIREBASE_MEASUREMENT_ID,
+    },
   },
 };

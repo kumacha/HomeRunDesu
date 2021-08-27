@@ -5,13 +5,13 @@ import 'firebase/storage';
 import 'firebase/analytics';
 
 const config = {
-  apiKey: process.env.API_KEY,
-  authDomain: process.env.AUTH_DOMAIN,
-  projectId: process.env.PROJECT_ID,
-  storageBucket: process.env.STRAGE_BUCKET,
-  messagingSenderId: process.env.MESSAGEING_SENDER_ID,
-  appId: process.env.APP_ID,
-  measurementId: process.env.MEASUREMENT_ID,
+  apiKey: 'AIzaSyBfO4VzkprtQIx-f1ndm2Kmaqy3wneSCXk',
+  authDomain: 'homerundesu-6774d.firebaseapp.com',
+  projectId: 'homerundesu-6774d',
+  storageBucket: 'homerundesu-6774d.appspot.com',
+  messagingSenderId: '646274597932',
+  appId: '1:646274597932:web:b32d3c2f24951d200dbd89',
+  measurementId: 'G-15YDX7DS06',
 };
 
 if (!firebase.apps.length) {

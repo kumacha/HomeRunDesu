@@ -13,23 +13,36 @@
           ></v-img>
         </v-col>
         <v-col md="7">
-          <title-field :label="title"></title-field>
+          <div>
+            <v-text-field v-model="product_title" :label="title" outlined />
+          </div>
         </v-col>
-        <v-col md="7"><TextArea :area-label="textarea" /> </v-col>
-        <v-col md="6"><PostButton :button-name="name" /> </v-col>
+        <v-col md="7"
+          ><div class="text-field">
+            <v-textarea
+              v-model="product_detail"
+              outlined
+              name="input-7-1"
+              :label="textarea"
+            ></v-textarea></div
+        ></v-col>
+        <v-col md="6"
+          ><PostButton
+            :button-name="name"
+            :btn-color="color"
+            :method="postProduct"
+          />
+        </v-col>
       </v-row>
     </v-container>
   </div>
 </template>
 
 <script>
-import TitleField from '../../components/Atoms/TitleField.vue';
-import TextArea from '../../components/Atoms/TextArea.vue';
 import PostButton from '../../components/Atoms/Button.vue';
+import firebase from '~/plugins/firebase';
 export default {
   components: {
-    TitleField,
-    TextArea,
     PostButton,
   },
   data() {
@@ -37,8 +50,40 @@ export default {
       title: 'タイトル',
       textarea: '今まで開発・制作したものを紹介してみよう！',
       name: '投稿',
-      setSelfPR: '',
+      color: 'primary',
+      product_title: '',
+      product_detail: '',
     };
+  },
+  methods: {
+    postProduct() {
+      const db = firebase.firestore();
+      const ref = db.collection('products').doc();
+      const timestamp = firebase.firestore.Timestamp.now();
+      firebase.auth().onAuthStateChanged((user) => {
+        if (user) {
+          const uid = user.uid;
+          ref
+            .set({
+              title: this.product_title,
+              detail: this.product_detail,
+              author: uid,
+              id: ref.id,
+              createdAt: timestamp,
+              updateAt: timestamp,
+            })
+            .then(() => {
+              alert('成果物PRを投稿しました');
+              this.$router.push({
+                name: 'timeline-products-id',
+                params: { id: ref.id },
+              });
+            });
+        } else {
+          alert('ログインしてください');
+        }
+      });
+    },
   },
 };
 </script>

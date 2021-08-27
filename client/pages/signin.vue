@@ -29,72 +29,47 @@
                 <v-card-text class="pa-0">
                   <v-form
                     ref="register_form"
-                    v-model="register_valid"
+                    v-model="login_valid"
                     lazy-validation
                   >
                     <v-text-field
-                      v-model="register_email"
+                      v-model="login_email"
                       label="メールアドレス"
-                      :rules="emailRules"
-                      required
-                      validate-on-blur
-                    />
-                    <v-text-field
-                      v-model="register_name"
-                      label="ユーザー名"
-                      :rules="nameRules"
                       required
                       validate-on-blur
                     />
 
                     <v-text-field
                       ref="register_password"
-                      v-model="register_password"
+                      v-model="login_password"
                       label="パスワード"
                       required
                       :append-icon="
-                        show_registerPassword ? 'mdi-eye' : 'mdi-eye-off'
+                        show_loginpassword ? 'mdi-eye' : 'mdi-eye-off'
                       "
-                      :type="show_registerPassword ? 'text' : 'password'"
-                      :rules="register_passwordRules"
+                      :type="show_loginpassword ? 'text' : 'password'"
                       validate-on-blur
                       loading
-                      @click:append="
-                        show_registerPassword = !show_registerPassword
-                      "
+                      @click:append="show_loginpassword = !show_loginpassword"
                     >
                       <template #progress>
                         <v-progress-linear absolute height="2" />
                       </template>
                     </v-text-field>
-                    <v-text-field
-                      v-model="register_password_again"
-                      label="パスワード（確認）"
-                      required
-                      :append-icon="
-                        show_registerPassword ? 'mdi-eye' : 'mdi-eye-off'
-                      "
-                      :type="show_registerPassword ? 'text' : 'password'"
-                      validate-on-blur
-                      :rules="register_passwordAgainRules"
-                      @click:append="
-                        show_registerPassword = !show_registerPassword
-                      "
-                    />
-                    <v-alert v-if="registerErrorMsg" dense text type="error">
-                      {{ registerErrorMsg }}
+                    <v-alert v-if="loginErrorMsg" dense text type="error">
+                      {{ loginErrorMsg }}
                     </v-alert>
                     <v-row justify="center">
                       <v-col md="8">
                         <div id="register-btn">
                           <v-btn
                             block
-                            :disabled="!register_valid"
+                            :disabled="!login_valid"
                             color="#2BB7A4"
                             class="mr-4 white--text"
-                            @click="email_register"
+                            @click="email_login"
                           >
-                            登録
+                            ログイン
                           </v-btn>
                         </div>
                       </v-col>
@@ -111,7 +86,43 @@
 </template>
 
 <script>
-export default {};
+import firebase from '~/plugins/firebase';
+export default {
+  data() {
+    return {
+      tab: null,
+      login_valid: true,
+      login_email: '',
+      login_password: '',
+      show_loginpassword: false,
+      loginErrorMsg: '',
+      socialLoginErrorMsg: '',
+    };
+  },
+  methods: {
+    email_login() {
+      firebase
+        .auth()
+        .signInWithEmailAndPassword(this.login_email, this.login_password)
+        .then((user) => {
+          firebase.auth().onAuthStateChanged((user) => {
+            if (!user) {
+              // サインインしていない状態
+              // サインイン画面に遷移する等
+              // 例:
+              this.router.push('/');
+            } else {
+              // サインイン済み
+              console.log('サインイン済み');
+              this.$router.push('/timeline');
+            }
+          });
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+  },
+};
 </script>
-
 <style></style>

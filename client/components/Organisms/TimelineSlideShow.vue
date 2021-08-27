@@ -32,9 +32,9 @@ export default {
           prevEl: '.swiper-button-prev',
         },
       },
-    };
+    }
   },
-};
+}
 </script>
 
 <style>

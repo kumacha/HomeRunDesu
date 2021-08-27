@@ -8,28 +8,42 @@
         <v-col cols="12">
           <v-img
             class="post_img"
-            max-width="300px"
+            max-width="250px"
             src="/images/post/post2.png"
           ></v-img>
         </v-col>
         <v-col md="7">
-          <title-field :label="title"></title-field>
+          <div>
+            <v-text-field v-model="experience_title" :label="title" outlined />
+          </div>
         </v-col>
-        <v-col md="7"><TextArea :area-label="textarea" /> </v-col>
-        <v-col md="6"><PostButton :button-name="name" /> </v-col>
+        <v-col md="7"
+          ><div class="text-field">
+            <v-textarea
+              v-model="experience_detail"
+              outlined
+              name="input-7-1"
+              :label="textarea"
+            ></v-textarea>
+          </div>
+        </v-col>
+        <v-col md="6"
+          ><PostButton
+            :button-name="name"
+            :btn-color="color"
+            :method="postExperience"
+          />
+        </v-col>
       </v-row>
     </v-container>
   </div>
 </template>
 
 <script>
-import TitleField from '../../components/Atoms/TitleField.vue';
-import TextArea from '../../components/Atoms/TextArea.vue';
 import PostButton from '../../components/Atoms/Button.vue';
+import firebase from '~/plugins/firebase';
 export default {
   components: {
-    TitleField,
-    TextArea,
     PostButton,
   },
   data() {
@@ -37,8 +51,40 @@ export default {
       title: 'タイトル',
       textarea: 'ガクチカ',
       name: '投稿',
-      setSelfPR: '',
+      color: 'primary',
+      experience_title: '',
+      experience_detail: '',
     };
+  },
+  methods: {
+    postExperience() {
+      const db = firebase.firestore();
+      const ref = db.collection('experiences').doc();
+      const timestamp = firebase.firestore.Timestamp.now();
+      firebase.auth().onAuthStateChanged((user) => {
+        if (user) {
+          const uid = user.uid;
+          ref
+            .set({
+              title: this.experience_title,
+              detail: this.experience_detail,
+              author: uid,
+              id: ref.id,
+              createdAt: timestamp,
+              updateAt: timestamp,
+            })
+            .then(() => {
+              alert('ガクチカを投稿しました');
+              this.$router.push({
+                name: 'timeline-experiences-id',
+                params: { id: ref.id },
+              });
+            });
+        } else {
+          alert('ログインしてください');
+        }
+      });
+    },
   },
 };
 </script>
