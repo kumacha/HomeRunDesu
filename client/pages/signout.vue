@@ -22,6 +22,7 @@ export default {
         .signOut()
         .then(() => {
           console.log('ログアウトしました。');
+          this.$router.push('/signin');
         })
         .catch((error) => {
           console.log(error);

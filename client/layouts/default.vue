@@ -2,10 +2,18 @@
   <v-app light>
     <v-app-bar :clipped-left="clipped" fixed app>
       <!-- <v-btn v-if="!path_valid"><v-icon> mdi-account </v-icon></v-btn> -->
-      <v-toolbar-title v-text="title" />
+      <nuxt-link to="/timeline">
+        <AppLogo />
+      </nuxt-link>
       <v-spacer />
-      <div v-for="(link, index) in links" :key="index">
-        <v-btn :to="link.to">{{ link.name }}</v-btn>
+
+      <div
+        v-for="(object, index) in objects"
+        :key="index"
+        class="navigation-button"
+      >
+        <v-btn :to="object.to" :text="true">{{ object.name }}</v-btn>
+        <v-spacer />
       </div>
     </v-app-bar>
     <v-main>
@@ -15,7 +23,11 @@
 </template>
 
 <script>
+import AppLogo from '~/components/Atoms/AppLogo.vue';
 export default {
+  components: {
+    AppLogo,
+  },
   data() {
     return {
       // path_valid: this.$route.path === '/',
@@ -26,11 +38,11 @@ export default {
       right: true,
       rightDrawer: false,
       title: 'ほめルンです☆',
-      links: [
-        { name: 'サインイン', to: '/signin' },
+      objects: [
+        // { name: 'サインイン', to: '/signin' },
         { name: 'タイムライン', to: '/timeline' },
-        { name: 'ランキング', to: '/ranking' },
         { name: '投稿', to: '/post' },
+        { name: 'ランキング', to: '/ranking' },
         { name: '通知', to: '/notify' },
         { name: 'プロフィール', to: '/user' },
       ],

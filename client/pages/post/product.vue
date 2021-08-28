@@ -33,6 +33,11 @@
               :label="textarea"
             ></v-textarea></div
         ></v-col>
+        <v-col md="7">
+          <div>
+            <v-text-field v-model="product_url" :label="url" outlined />
+          </div>
+        </v-col>
         <v-col md="6"
           ><PostButton
             :button-name="name"
@@ -58,8 +63,10 @@ export default {
       textarea: '今まで開発・制作したものを紹介してみよう！',
       name: '投稿',
       color: 'primary',
+      url: 'URLがあれば記入',
       product_title: '',
       product_detail: '',
+      product_url: '',
       thumbnail: '',
       postData: {
         thumbnail: '',
@@ -100,12 +107,26 @@ export default {
       return firebase.auth().onAuthStateChanged((user) => {
         if (user) {
           const uid = user.uid;
-          ref
+          ref.set({
+            title: this.product_title,
+            detail: this.product_detail,
+            url: this.product_url,
+            user: uid,
+            id: ref.id,
+            type: 'products',
+            src: '',
+            createdAt: timestamp,
+            updateAt: timestamp,
+          });
+          const timeline = db.collection('timeline').doc();
+          timeline
             .set({
               title: this.product_title,
               detail: this.product_detail,
-              author: uid,
+              url: this.product_url,
+              user: uid,
               id: ref.id,
+              type: 'products',
               src: '',
               createdAt: timestamp,
               updateAt: timestamp,
@@ -124,13 +145,13 @@ export default {
                   db.collection('products').doc(ref.id).update({
                     src: res,
                   });
+                  db.collection('timeline').doc(timeline.id).update({
+                    src: res,
+                  });
                 });
               };
               addURL();
-              this.$router.push({
-                name: 'timeline-products-id',
-                params: { id: ref.id },
-              });
+              this.$router.push('/timeline');
             });
         } else {
           alert('ログインしてください');

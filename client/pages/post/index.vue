@@ -2,7 +2,9 @@
   <div>
     <v-row justify="center">
       <v-col>
-        <p>就職活動であなたの武器となっているものに自信をつけませんか？</p>
+        <p class="text-h4 font-weight-bold title">
+          就職活動でよく聞かれることをたくさん褒められて自信をつけませんか？
+        </p>
       </v-col>
     </v-row>
     <v-container>
@@ -71,5 +73,9 @@ export default {
 <style>
 .card {
   max-height: 350px;
+}
+.title {
+  text-align: center;
+  margin-top: 100px;
 }
 </style>

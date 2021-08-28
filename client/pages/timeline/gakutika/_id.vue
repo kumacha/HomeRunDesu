@@ -5,8 +5,8 @@
         <v-col md="8" class="item-title">
           <p class="text-h4 font-weight-bold">
             {{ title }}
-          </p> </v-col
-        ><v-col md="8"><v-img :src="src"></v-img></v-col>
+          </p>
+        </v-col>
       </v-row>
       <v-row>
         <v-col md="3"></v-col>
@@ -29,9 +29,6 @@
             {{ detail }}
           </p></v-col
         >
-        <v-col md="8"
-          ><a :href="url">参考URL：{{ url }}</a></v-col
-        >
       </v-row>
       <HomerunButtons />
       <Comment />
@@ -50,49 +47,42 @@ export default {
   },
   data() {
     return {
-      products: [],
+      introduces: [],
       users: [],
       title: '',
       detail: '',
       id: '',
       type: '',
-      src: '',
       uid: '',
       name: '',
       email: '',
-      url: '',
     };
   },
-
   mounted() {
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         const db = firebase.firestore();
         const dbIntro = db
-          .collection('products')
+          .collection('experiences')
           .where('id', '==', this.$route.params.id);
         dbIntro.get().then((query) => {
           query.forEach((doc) => {
-            const products = doc.data();
-            this.products = [
-              ...this.products,
+            const introduces = doc.data();
+            this.introduces = [
+              ...this.introduces,
               {
-                title: products.title,
-                src: products.src,
-                detail: products.detail,
-                id: products.id,
-                type: products.type,
-                uid: products.user,
-                url: products.url,
+                title: introduces.title,
+                detail: introduces.detail,
+                id: introduces.id,
+                type: introduces.type,
+                uid: introduces.user,
               },
             ];
-            this.title = this.products[0].title;
-            this.detail = this.products[0].detail;
-            this.src = this.products[0].src;
-            this.id = this.products[0].id;
-            this.type = this.products[0].type;
-            this.uid = this.products[0].uid;
-            this.url = this.products[0].url;
+            this.title = this.introduces[0].title;
+            this.detail = this.introduces[0].detail;
+            this.id = this.introduces[0].id;
+            this.type = this.introduces[0].type;
+            this.uid = this.introduces[0].uid;
             const dbUser = db.collection('users').where('uid', '==', this.uid);
             dbUser.get().then((query) => {
               query.forEach((doc) => {

@@ -1,10 +1,8 @@
 <template>
   <div>
-    <v-container
-      ><v-row><p>新着投稿</p></v-row></v-container
-    >
+    <p class="text-h4 font-weight-bold timeline_title">TimeLine</p>
     <TimelineSlideShow />
-    <v-row v-for="n in 10" :key="n" justify="center">
+    <!-- <v-row v-for="n in 10" :key="n" justify="center">
       <v-col md="3"></v-col>
       <v-col md="6"
         ><v-card to="/timeline/introduces">
@@ -47,15 +45,18 @@
         </v-card></v-col
       >
       <v-col md="3"></v-col>
-    </v-row>
+    </v-row> -->
+    <Timeline />
   </div>
 </template>
 
 <script>
 import TimelineSlideShow from '~/components/Organisms/TimelineSlideShow.vue';
+import Timeline from '~/components/Organisms/Timeline.vue';
 export default {
   components: {
     TimelineSlideShow,
+    Timeline,
   },
   data() {
     return {
@@ -65,4 +66,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.timeline_title {
+  text-align: center;
+}
+</style>

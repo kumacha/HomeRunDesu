@@ -5,8 +5,8 @@
         <v-col md="8" class="item-title">
           <p class="text-h4 font-weight-bold">
             {{ title }}
-          </p> </v-col
-        ><v-col md="8"><v-img :src="src"></v-img></v-col>
+          </p>
+        </v-col>
       </v-row>
       <v-row>
         <v-col md="3"></v-col>
@@ -50,49 +50,45 @@ export default {
   },
   data() {
     return {
-      products: [],
+      zemis: [],
       users: [],
       title: '',
       detail: '',
       id: '',
       type: '',
-      src: '',
       uid: '',
       name: '',
       email: '',
       url: '',
     };
   },
-
   mounted() {
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         const db = firebase.firestore();
         const dbIntro = db
-          .collection('products')
+          .collection('zemis')
           .where('id', '==', this.$route.params.id);
         dbIntro.get().then((query) => {
           query.forEach((doc) => {
-            const products = doc.data();
-            this.products = [
-              ...this.products,
+            const zemis = doc.data();
+            this.zemis = [
+              ...this.zemis,
               {
-                title: products.title,
-                src: products.src,
-                detail: products.detail,
-                id: products.id,
-                type: products.type,
-                uid: products.user,
-                url: products.url,
+                title: zemis.title,
+                detail: zemis.detail,
+                id: zemis.id,
+                type: zemis.type,
+                uid: zemis.user,
+                url: zemis.url,
               },
             ];
-            this.title = this.products[0].title;
-            this.detail = this.products[0].detail;
-            this.src = this.products[0].src;
-            this.id = this.products[0].id;
-            this.type = this.products[0].type;
-            this.uid = this.products[0].uid;
-            this.url = this.products[0].url;
+            this.title = this.zemis[0].title;
+            this.detail = this.zemis[0].detail;
+            this.id = this.zemis[0].id;
+            this.type = this.zemis[0].type;
+            this.uid = this.zemis[0].uid;
+            this.url = this.zemis[0].url;
             const dbUser = db.collection('users').where('uid', '==', this.uid);
             dbUser.get().then((query) => {
               query.forEach((doc) => {

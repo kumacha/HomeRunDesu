@@ -64,19 +64,30 @@ export default {
       firebase.auth().onAuthStateChanged((user) => {
         if (user) {
           const uid = user.uid;
-          ref
+          ref.set({
+            title: this.experience_title,
+            detail: this.experience_detail,
+            user: uid,
+            id: ref.id,
+            type: 'gakutika',
+            createdAt: timestamp,
+            updateAt: timestamp,
+          });
+          const timeline = db.collection('timeline').doc();
+          timeline
             .set({
               title: this.experience_title,
               detail: this.experience_detail,
-              author: uid,
+              user: uid,
               id: ref.id,
+              type: 'gakutika',
               createdAt: timestamp,
               updateAt: timestamp,
             })
             .then(() => {
               alert('ガクチカを投稿しました');
               this.$router.push({
-                name: 'timeline-experiences-id',
+                name: 'timeline-gakutika-id',
                 params: { id: ref.id },
               });
             });

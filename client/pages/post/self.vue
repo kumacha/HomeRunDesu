@@ -64,12 +64,23 @@ export default {
       firebase.auth().onAuthStateChanged((user) => {
         if (user) {
           const uid = user.uid;
-          ref
+          ref.set({
+            title: this.introduce_title,
+            detail: this.introduce_detail,
+            user: uid,
+            id: ref.id,
+            type: 'introduces',
+            createdAt: timestamp,
+            updateAt: timestamp,
+          });
+          const timeline = db.collection('timeline').doc();
+          timeline
             .set({
               title: this.introduce_title,
               detail: this.introduce_detail,
-              author: uid,
+              user: uid,
               id: ref.id,
+              type: 'introduces',
               createdAt: timestamp,
               updateAt: timestamp,
             })

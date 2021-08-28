@@ -1,21 +1,17 @@
 <template>
-  <div>
-    サインインページ
-    <div>
-      <nuxt-link to="signin">サインイン</nuxt-link>
-      <nuxt-link to="signout">サインアウト</nuxt-link>
-      <nuxt-link to="signup">ユーザー登録はコチラ</nuxt-link>
-    </div>
+  <div class="tate">
     <v-container>
       <v-row justify="center">
+        <v-col md="6"><v-img src="/images/homerurun.png"></v-img></v-col>
+
         <v-col sm="12" md="7">
           <h2 class="text-center subtitle-1 font-weight-bold mb-2">
-            メールアドレスでアカウント登録
+            メールアドレスでログイン
           </h2>
           <v-tabs
             v-model="tab"
             background-color="transparent"
-            color="#2BB7A4"
+            color="primary"
             grow
             class="mb-3"
           >
@@ -65,7 +61,7 @@
                           <v-btn
                             block
                             :disabled="!login_valid"
-                            color="#2BB7A4"
+                            color="primary"
                             class="mr-4 white--text"
                             @click="email_login"
                           >
@@ -81,6 +77,16 @@
           </v-row>
         </v-col>
       </v-row>
+      <v-row justify="center">
+        <v-col col="3"></v-col>
+        <v-col class="ma-8" col="3"
+          ><v-img max-width="200px" src="/images/genki.png"></v-img
+        ></v-col>
+        <v-col class="ma-8" col="3"
+          ><v-img max-width="200px" src="/images/genki2.png"></v-img
+        ></v-col>
+        <v-col col="3"></v-col>
+      </v-row>
     </v-container>
   </div>
 </template>
@@ -88,6 +94,7 @@
 <script>
 import firebase from '~/plugins/firebase';
 export default {
+  layout: 'home',
   data() {
     return {
       tab: null,

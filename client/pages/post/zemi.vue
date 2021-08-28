@@ -26,6 +26,11 @@
               :label="textarea"
             ></v-textarea></div
         ></v-col>
+        <v-col md="7">
+          <div>
+            <v-text-field v-model="zemi_url" :label="url" outlined />
+          </div>
+        </v-col>
         <v-col md="6"
           ><PostButton
             :button-name="name"
@@ -51,8 +56,10 @@ export default {
       textarea: '研究テーマやゼミでの出来事、学会経験など',
       name: '投稿',
       color: 'primary',
+      url: 'URLがあれば入力',
       zemi_title: '',
       zemi_detail: '',
+      zemi_url: '',
     };
   },
   methods: {
@@ -63,19 +70,32 @@ export default {
       firebase.auth().onAuthStateChanged((user) => {
         if (user) {
           const uid = user.uid;
-          ref
+          ref.set({
+            title: this.zemi_title,
+            detail: this.zemi_detail,
+            url: this.zemi_url,
+            user: uid,
+            id: ref.id,
+            type: 'zemis',
+            createdAt: timestamp,
+            updateAt: timestamp,
+          });
+          const timeline = db.collection('timeline').doc();
+          timeline
             .set({
               title: this.zemi_title,
               detail: this.zemi_detail,
-              author: uid,
+              url: this.zemi_url,
+              user: uid,
               id: ref.id,
+              type: 'zemis',
               createdAt: timestamp,
               updateAt: timestamp,
             })
             .then(() => {
-              alert('自己PRを投稿しました');
+              alert('研究テーマ・ゼミ活動を投稿しました');
               this.$router.push({
-                name: 'timeline-introduces-id',
+                name: 'timeline-zemi-id',
                 params: { id: ref.id },
               });
             });
